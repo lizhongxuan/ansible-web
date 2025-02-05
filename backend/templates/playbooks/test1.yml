@@ -1,0 +1,39 @@
+---
+- name: Gather macOS System Information
+  hosts: macos
+  gather_facts: yes
+  tasks:
+    - name: Gather macOS System Information
+      ansible.builtin.setup:
+        gather_subset: all
+      register: system_facts
+
+    - name: Display macOS Version
+      ansible.builtin.debug:
+        msg: "macOS Version: {{ ansible_distribution_version }}"
+
+    - name: Display System Information
+      ansible.builtin.debug:
+        msg: |
+          Hostname: {{ ansible_hostname }}
+          Architecture: {{ ansible_architecture }}
+          Processor: {{ ansible_processor[0] }}
+          Memory Total: {{ ansible_memtotal_mb }}MB
+          CPU Cores: {{ ansible_processor_cores }}
+          Python Version: {{ ansible_python_version }}
+
+    - name: Get Disk Usage
+      ansible.builtin.shell: df -h /
+      register: disk_usage
+
+    - name: Display Disk Usage
+      ansible.builtin.debug:
+        msg: "{{ disk_usage.stdout_lines }}"
+
+    - name: Get System Uptime
+      ansible.builtin.shell: uptime
+      register: system_uptime
+
+    - name: Display System Uptime
+      ansible.builtin.debug:
+        msg: "{{ system_uptime.stdout }}"
