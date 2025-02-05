@@ -13,32 +13,42 @@
         >
           {{ tab.name }}
         </button>
+        <button 
+          @click="currentTab = 'playbook-editor'"
+          :class="{ active: currentTab === 'playbook-editor' }"
+        >
+          可视化编辑器
+        </button>
       </div>
 
       <!-- Ansible 操作表单 -->
-      <div v-if="currentTab === 'ansible'">
+      <div v-show="currentTab === 'ansible'">
         <AnsibleOperation />
       </div>
 
       <!-- 主机管理组件 -->
-      <div v-if="currentTab === 'hosts'">
+      <div v-show="currentTab === 'hosts'">
         <HostManager />
       </div>
 
-      <div v-if="currentTab === 'playbook-templates'">
+      <div v-show="currentTab === 'playbook-templates'">
         <PlaybookManager />
       </div>
 
-      <div v-if="currentTab === 'inventory-templates'">
+      <div v-show="currentTab === 'inventory-templates'">
         <InventoryManager />
       </div>
 
-      <div v-if="currentTab === 'roles'">
+      <div v-show="currentTab === 'roles'">
         <RoleManager @use-role="useRole" />
       </div>
 
-      <div v-if="currentTab === 'files'">
+      <div v-show="currentTab === 'files'">
         <FileManager @use-file="useFile" />
+      </div>
+
+      <div v-show="currentTab === 'playbook-editor'">
+        <PlaybookEditor />
       </div>
     </div>
   </div>
@@ -52,6 +62,7 @@ import RoleManager from './components/RoleManager.vue'
 import FileManager from './components/FileManager.vue'
 import NotificationCenter from './components/NotificationCenter.vue'
 import AnsibleOperation from './components/AnsibleOperation.vue'
+import PlaybookEditor from './components/PlaybookEditor.vue'
 
 export default {
   name: 'App',
@@ -62,7 +73,8 @@ export default {
     RoleManager,
     FileManager,
     NotificationCenter,
-    AnsibleOperation
+    AnsibleOperation,
+    PlaybookEditor
   },
   data() {
     return {
@@ -172,8 +184,10 @@ export default {
 }
 
 .container {
-  max-width: 800px;
+  max-width: 1200px;
   margin: 0 auto;
+  height: calc(100vh - 150px);
+  overflow: hidden;
 }
 
 .form {
@@ -265,6 +279,22 @@ textarea.form-control {
 }
 
 .tabs button.active {
+  background: #42b983;
+  color: white;
+}
+
+.tab-btn {
+  padding: 10px 20px;
+  margin-right: 10px;
+  border: none;
+  background: #f5f5f5;
+  cursor: pointer;
+  border-radius: 4px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.tab-btn.router-link-active {
   background: #42b983;
   color: white;
 }

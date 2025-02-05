@@ -4,7 +4,7 @@
 
 # 运行图
 ![run](images/run.png)
-
+![edit_playbook](images/edit_playbook.png)
 
 ## 功能特点
 
